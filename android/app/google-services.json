@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "38829565244",
+    "project_id": "flutter-zalo-bloc",
+    "storage_bucket": "flutter-zalo-bloc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38829565244:android:eaef7b4dd2fbc538e56a39",
+        "android_client_info": {
+          "package_name": "com.example.flutter_zalo_bloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38829565244-eu6f5l8m0fm0fpilbe8vtvl95rtshopd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD8IrBPNkJrM86G2Hd2Fvrdem1OBvmaMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38829565244-eu6f5l8m0fm0fpilbe8vtvl95rtshopd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

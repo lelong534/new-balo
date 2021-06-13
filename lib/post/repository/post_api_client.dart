@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_zalo_bloc/authentication/models/models.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:flutter_zalo_bloc/post/models/post_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +19,12 @@ class PostApiClient {
 
   Future<PostResponse> getListPosts(int index, int count) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("user");
+    String token = "";
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+      print(token);
+    }
     try {
       Response response = await _dio.post(getListPostsUrl, data: {
         "token": token,
@@ -51,7 +58,7 @@ class PostApiClient {
   }
 
   Future<PostResponse> addPost(
-      List<MultipartFile> images, File video, String described) async {
+      List<MultipartFile>? images, File? video, String described) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString("token");
 

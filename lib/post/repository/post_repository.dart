@@ -32,7 +32,7 @@ class PostRepository {
   }
 
   Future<PostState> addPost(
-      List<MultipartFile> images, File video, String described) async {
+      List<MultipartFile>? images, File? video, String described) async {
     PostResponse newState =
         await postApiClient.addPost(images, video, described);
     return ReceivedPostState(newState);

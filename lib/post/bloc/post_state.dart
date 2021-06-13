@@ -1,6 +1,6 @@
 part of 'post_bloc.dart';
 
-abstract class PostState extends Equatable {
+class PostState extends Equatable {
   const PostState();
 
   @override

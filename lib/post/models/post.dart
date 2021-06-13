@@ -13,7 +13,7 @@ class Post {
     required this.id,
     required this.described,
     required this.images,
-    required this.video,
+    this.video,
     required this.like,
     required this.comment,
     required this.createdAt,
@@ -24,16 +24,16 @@ class Post {
     required this.authorAvatar,
   });
 
-  String id;
+  int id;
   String described;
-  String images;
-  String video;
-  String like;
-  String comment;
+  List images;
+  String? video;
+  int like;
+  int comment;
   String createdAt;
   String updatedAt;
-  String isLiked;
-  String authorId;
+  bool isLiked;
+  int authorId;
   String authorName;
   String authorAvatar;
 
@@ -44,12 +44,16 @@ class Post {
         video: json["video"],
         like: json["like"],
         comment: json["comment"],
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
         isLiked: json["isLiked"],
-        authorId: json["authorId"],
-        authorName: json["authorName"],
-        authorAvatar: json["authorAvatar"],
+        authorId: json["author"]["id"],
+        authorName: json["author"]["name"] == null
+            ? "Người dùng"
+            : json["author"]["name"],
+        authorAvatar: json["author"]["avatar"] == null
+            ? "avatar"
+            : json["author"]["avatar"],
       );
 
   Map<String, dynamic> toJson() => {

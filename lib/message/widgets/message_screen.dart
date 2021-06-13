@@ -47,6 +47,11 @@ class _MessageScreenState extends State<MessageScreen> {
             content: _messageController.text,
           ));
 
+      context.read<ConversationsBloc>().add(ResetConversations(
+            receiver: widget.receiver,
+            content: _messageController.text,
+          ));
+
       _messageController.clear();
     }
   }

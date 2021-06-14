@@ -28,7 +28,6 @@ class App extends StatelessWidget {
           } else if (state is Unauthenticated) {
             return AuthenticationScreen();
           }
-
           return Scaffold(
             body: Center(
               child: Text('Something went wrong!'),

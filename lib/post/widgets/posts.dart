@@ -5,7 +5,7 @@ import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:flutter_zalo_bloc/post/repository/post_api_client.dart';
 import 'package:flutter_zalo_bloc/post/repository/post_repository.dart';
 import 'package:flutter_zalo_bloc/post/widgets/add_post.dart';
-// import 'package:flutter_zalo_bloc/post/widgets/post_detail/post_detail.dart';
+import 'package:flutter_zalo_bloc/post/widgets/post_detail/post_detail.dart';
 import 'package:flutter_zalo_bloc/post/widgets/post_item.dart';
 
 class Posts extends StatefulWidget {
@@ -93,22 +93,21 @@ class _PostsState extends State<Posts> {
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) {
-                                  // return PostDetail(
-                                  //   postDetail: post,
-                                  //   onTap: () {
-                                  //     if (!post.isLiked)
-                                  //       return BlocProvider.of<PostBloc>(
-                                  //               context)
-                                  //           .add(
-                                  //         LikePostEvent(post),
-                                  //       );
-                                  //     else
-                                  //       BlocProvider.of<PostBloc>(context).add(
-                                  //         UnLikePostEvent(post),
-                                  //       );
-                                  //   },
-                                  // );
-                                  return Container();
+                                  return PostDetail(
+                                    postDetail: post,
+                                    onTap: () {
+                                      if (!post.isLiked)
+                                        return BlocProvider.of<PostBloc>(
+                                                context)
+                                            .add(
+                                          LikePostEvent(post),
+                                        );
+                                      else
+                                        BlocProvider.of<PostBloc>(context).add(
+                                          UnLikePostEvent(post),
+                                        );
+                                    },
+                                  );
                                 },
                               ),
                             );

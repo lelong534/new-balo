@@ -3,6 +3,7 @@ import 'package:flutter_zalo_bloc/message/widgets/widgets.dart';
 import 'package:flutter_zalo_bloc/more/widgets/widgets.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_zalo_bloc/post/widgets/posts.dart';
+import 'package:flutter_zalo_bloc/search/widgets/search_screen.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _HomepageState extends State<Homepage> {
                   border: InputBorder.none,
                 ),
                 onTap: () {
-                  // showSearch(context: context, delegate: Search());
+                  showSearch(context: context, delegate: SearchScreen());
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(

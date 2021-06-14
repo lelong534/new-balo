@@ -16,7 +16,7 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
-  late File video;
+  File? video;
   List<Asset> imagesAsset = <Asset>[];
   String errorText = "No Error Dectected";
   final _describedController = TextEditingController();
@@ -40,9 +40,9 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future<void> loadAssets() async {
-    setState(() {
-      imagesAsset = [];
-    });
+    // setState(() {
+    //   imagesAsset = [];
+    // });
 
     List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
@@ -50,6 +50,7 @@ class _AddPostState extends State<AddPost> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 4,
+        enableCamera: true,
         materialOptions: MaterialOptions(
           actionBarColor: "#b2b2b2",
           actionBarTitleColor: "#FFFFFF",

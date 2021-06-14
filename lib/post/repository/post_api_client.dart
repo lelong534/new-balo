@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -20,11 +19,12 @@ class PostApiClient {
   Future<PostResponse> getListPosts(int index, int count) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = "";
+
     String? json = prefs.getString('user');
     if (json != null) {
       token = userFromJson(json).token;
-      print(token);
     }
+
     try {
       Response response = await _dio.post(getListPostsUrl, data: {
         "token": token,
@@ -41,7 +41,12 @@ class PostApiClient {
   Future<PostResponse> getListPostsByUser(
       int index, int count, int userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
 
     try {
       Response response = await _dio.post(getListPostsUrl, data: {
@@ -60,12 +65,17 @@ class PostApiClient {
   Future<PostResponse> addPost(
       List<MultipartFile>? images, File? video, String described) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
 
     try {
       var formData = FormData.fromMap({
         "token": token,
-        "image": images,
+        "image[]": images,
         "video": video,
         "described": described,
       });
@@ -85,7 +95,12 @@ class PostApiClient {
 
   Future<PostResponse> likePost(Post post) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
 
     try {
       await _dio.post(likePostUrl, data: {
@@ -107,7 +122,12 @@ class PostApiClient {
 
   Future<PostResponse> unLikePost(Post post) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("token");
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
 
     try {
       await _dio.post(unLikePostUrl, data: {

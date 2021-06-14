@@ -46,7 +46,7 @@ class PostItem extends StatelessWidget {
           onClickProfile();
         },
         child: Text(
-          post.authorName != null ? post.authorName : "Người dùng",
+          post.authorName,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,

@@ -38,6 +38,11 @@ void main() async {
           socketIoRepository: socketIoRepository,
         ),
       ),
+      BlocProvider<ConversationsBloc>(
+        create: (context) => ConversationsBloc(
+          chatRepository: chatRepository,
+        ),
+      ),
     ],
     child: App(
       authenticationRepository: authenticationRepository,

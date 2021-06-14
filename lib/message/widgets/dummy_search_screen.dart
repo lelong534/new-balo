@@ -13,6 +13,7 @@ class DummySearchScreen extends StatelessWidget {
       {'id': '105', 'name': 'Quỳnh Mai', 'avatar': null},
       {'id': '106', 'name': 'Bảo Thy', 'avatar': null},
       {'id': '107', 'name': 'Kiều Trang', 'avatar': null},
+      {'id': '113', 'name': 'Thắng', 'avatar': null},
     ];
 
     return Scaffold(

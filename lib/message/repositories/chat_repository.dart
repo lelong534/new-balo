@@ -19,4 +19,8 @@ class ChatRepository {
   Future<void> sendMessage({required Message message}) async {
     chatApiClient.sendMessage(message: message);
   }
+
+  Future<List<Conversation>> getConversations() async {
+    return chatApiClient.getConversations();
+  }
 }

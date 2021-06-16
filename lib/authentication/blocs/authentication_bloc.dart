@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_zalo_bloc/authentication/models/models.dart';
 import 'package:flutter_zalo_bloc/authentication/repositories/repositories.dart';
 import 'package:flutter_zalo_bloc/message/repositories/repositories.dart';
@@ -45,6 +47,7 @@ class AuthenticationBloc
         socketIoRepository.connect(userId: signinResult.userMainInfo.id);
 
         await authenticationRepository.setPersistenceUser(user: signinResult);
+        await subscribePushNotification(userId: signinResult.userMainInfo.id);
 
         yield Authenticated(user: signinResult);
       } else {
@@ -58,10 +61,33 @@ class AuthenticationBloc
         yield UnauthenticationRequestLoading(user: user);
 
         await authenticationRepository.removePersistenceUser();
+        await unsubscribePushNotification(userId: user.userMainInfo.id);
         await authenticationRepository.signout(token: user.token);
 
         yield Unauthenticated();
       }
     }
+  }
+
+  subscribePushNotification({required String userId}) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    String? token = await messaging.getToken();
+
+    await firestore.collection('pushtokens').doc(userId).set({
+      'token': token,
+    });
+  }
+
+  unsubscribePushNotification({required String userId}) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    await messaging.deleteToken();
+
+    await firestore.collection('pushtokens').doc(userId).set({
+      'token': null,
+    });
   }
 }

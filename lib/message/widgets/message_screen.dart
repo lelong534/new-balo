@@ -85,7 +85,50 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: ListView.builder(
                         itemCount: state.messages.length,
                         itemBuilder: (context, index) {
-                          return Text(state.messages[index].content);
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            margin: EdgeInsets.symmetric(vertical: 4),
+                            width: MediaQuery.of(context).size.width,
+                            alignment: state.messages[index].sender.id ==
+                                    user.userMainInfo.id
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 16,
+                              ),
+                              child: Text(
+                                state.messages[index].content,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: state.messages[index].sender.id ==
+                                          user.userMainInfo.id
+                                      ? [
+                                          const Color(0xff007EF4),
+                                          const Color(0XFF2A75BC)
+                                        ]
+                                      : [Colors.black38, Colors.black38],
+                                ),
+                                borderRadius: state.messages[index].content !=
+                                        state.messages.last.content
+                                    ? BorderRadius.all(Radius.circular(23))
+                                    : (state.messages[index].sender.id ==
+                                            user.userMainInfo.id
+                                        ? BorderRadius.only(
+                                            topLeft: Radius.circular(23.0),
+                                            topRight: Radius.circular(23.0),
+                                            bottomLeft: Radius.circular(23.0))
+                                        : BorderRadius.only(
+                                            topLeft: Radius.circular(23.0),
+                                            topRight: Radius.circular(23.0),
+                                            bottomRight:
+                                                Radius.circular(23.0))),
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -93,24 +136,25 @@ class _MessageScreenState extends State<MessageScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _messageController,
-                              decoration: InputDecoration(
-                                hintText: 'Tin nhắn',
-                                border: InputBorder.none,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _messageController,
+                                decoration: InputDecoration(
+                                  hintText: 'Tin nhắn',
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
-                          ),
-                          Material(
-                            child: IconButton(
+                            IconButton(
                               onPressed: _sendMessage,
                               icon: Icon(Icons.send_rounded),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -7,6 +7,7 @@ import 'package:flutter_zalo_bloc/post/repository/post_repository.dart';
 import 'package:flutter_zalo_bloc/post/widgets/add_post.dart';
 import 'package:flutter_zalo_bloc/post/widgets/post_detail/post_detail.dart';
 import 'package:flutter_zalo_bloc/post/widgets/post_item.dart';
+import 'package:flutter_zalo_bloc/profile/widgets/profile.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key}) : super(key: key);
@@ -29,6 +30,54 @@ class _PostsState extends State<Posts> {
       },
       child: BlocBuilder<PostBloc, PostState>(
         builder: (context, state) {
+          if (state is LoadingPostState) {
+            return Container(
+              color: Colors.white,
+              height: 80,
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          hintText: "Hôm nay bạn thế nào?",
+                          hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) {
+                                return AddPost(
+                                  onSave: (images, video, description) {
+                                    BlocProvider.of<PostBloc>(context).add(
+                                      AddPostEvent(
+                                        images: images,
+                                        video: video,
+                                        description: description,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  CircularProgressIndicator()
+                ],
+              ),
+            );
+          }
           if (state is ReceivedPostState) {
             List<Post> posts = state.posts.posts;
             return SingleChildScrollView(
@@ -113,15 +162,15 @@ class _PostsState extends State<Posts> {
                             );
                           },
                           onClickProfile: () async {
-                            // await Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (_) {
-                            //       return Profile(
-                            //         userId: post.authorId,
-                            //       );
-                            //     },
-                            //   ),
-                            // );
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) {
+                                  return Profile(
+                                    userId: post.authorId,
+                                  );
+                                },
+                              ),
+                            );
                           },
                         );
                       },

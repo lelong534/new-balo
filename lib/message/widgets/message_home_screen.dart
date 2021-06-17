@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/message/blocs/blocs.dart';
 import 'package:flutter_zalo_bloc/message/widgets/message_screen.dart';
-import 'package:flutter_zalo_bloc/message/widgets/widgets.dart';
+import 'package:flutter_zalo_bloc/search/widgets/search_screen.dart';
 
 class MessageHomeScreen extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class _MessageHomeScreenState extends State<MessageHomeScreen> {
                 final conversation = state.conversations[index];
 
                 String? avatar = conversation.partner.avatar;
+                DateTime lastTime =
+                    DateTime.fromMillisecondsSinceEpoch(conversation.lastTime);
 
                 Widget avatarWidget;
                 if (avatar is String) {
@@ -37,7 +40,7 @@ class _MessageHomeScreenState extends State<MessageHomeScreen> {
                   );
                 } else {
                   avatarWidget = CircleAvatar(
-                    backgroundColor: Colors.brown.shade800,
+                    backgroundColor: Colors.blue,
                     child: Text(conversation.partner.name[0].toUpperCase()),
                   );
                 }
@@ -46,7 +49,7 @@ class _MessageHomeScreenState extends State<MessageHomeScreen> {
                   leading: avatarWidget,
                   title: Text(conversation.partner.name),
                   subtitle: Text(conversation.lastContent),
-                  trailing: Text(conversation.lastTime.toString()),
+                  trailing: Text(TimeHelper.readTimestamp(lastTime.toString())),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -64,12 +67,7 @@ class _MessageHomeScreenState extends State<MessageHomeScreen> {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DummySearchScreen(),
-              ),
-            );
+            showSearch(context: context, delegate: SearchScreen());
           },
           child: Text('TÌM THÊM BẠN'),
         )

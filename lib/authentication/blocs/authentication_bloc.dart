@@ -50,6 +50,8 @@ class AuthenticationBloc
       } else {
         yield AuthenticationRequestFailure(message: signinResult);
       }
+    } else if (event is SignUp) {
+      
     } else if (event is SignOut) {
       if (state is Authenticated) {
         socketIoRepository.disconnect();

@@ -26,26 +26,21 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       titleWidget: Column(
         children: <Widget>[
           Text(
-            'ĐẠI HỌC BÁCH KHOA HÀ NỘI',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+            'BKZALO',
+            style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.w600,
+                fontFamily: "Contrail"),
           ),
           SizedBox(
             height: 8,
-          ),
-          Container(
-            height: 3,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
           ),
         ],
       ),
       body: "Một tình yêu, một tương lai.",
       image: Image.asset(
         'assets/logo.png',
-        width: 100,
+        width: 200,
       ),
       decoration: const PageDecoration(
         pageColor: Colors.white,
@@ -78,9 +73,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             dotsDecorator: DotsDecorator(
                 size: const Size.square(10.0),
                 activeSize: const Size(20.0, 10.0),
-                spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+                color: Colors.white,
                 activeShape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.0))),
+            dotsContainerDecorator: const BoxDecoration(
+              color: Colors.white,
+            ),
           );
   }
 }

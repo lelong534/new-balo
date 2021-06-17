@@ -1,6 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zalo_bloc/post/helpers/time_helper.dart';
+import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

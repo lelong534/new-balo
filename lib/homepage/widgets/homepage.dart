@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zalo_bloc/friends/widgets/contact.dart';
 import 'package:flutter_zalo_bloc/message/widgets/widgets.dart';
-import 'package:flutter_zalo_bloc/more/widgets/widgets.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_zalo_bloc/post/widgets/posts.dart';
 import 'package:flutter_zalo_bloc/search/widgets/search_screen.dart';
+import 'package:flutter_zalo_bloc/settings/widgets/more.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -29,7 +30,10 @@ class _HomepageState extends State<Homepage> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[Colors.blue, Colors.blue.shade300],
+              colors: <Color>[
+                Colors.blue,
+                Colors.blue.shade300,
+              ],
             ),
           ),
         ),
@@ -52,12 +56,6 @@ class _HomepageState extends State<Homepage> {
                 ),
                 onTap: () {
                   showSearch(context: context, delegate: SearchScreen());
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => DummySearchScreen(),
-                  //   ),
-                  // );
                 },
               ),
             ),
@@ -66,11 +64,14 @@ class _HomepageState extends State<Homepage> {
       ),
       body: PageView(
         controller: _pageController,
+        onPageChanged: (index) {
+          setState(() => _selectedIndex = index);
+        },
         children: [
           MessageHomeScreen(),
-          MoreScreen(),
+          Contact(),
           Posts(),
-          MoreScreen(),
+          More(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

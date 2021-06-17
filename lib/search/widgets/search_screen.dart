@@ -1,8 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_zalo_bloc/authentication/models/models.dart';
-import 'package:flutter_zalo_bloc/message/widgets/message_screen.dart';
 import 'package:flutter_zalo_bloc/search/bloc/search_bloc.dart';
 import 'package:flutter_zalo_bloc/search/models/search.dart';
 import 'package:flutter_zalo_bloc/search/repositories/search_api_client.dart';

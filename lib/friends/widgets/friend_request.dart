@@ -19,11 +19,11 @@ class _FriendRequestScreenState extends State<FriendRequestScreen> {
       padding: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: <Widget>[
-          request.avatar != "avatar.png"
-              ? CircleAvatar(backgroundImage: NetworkImage(request.avatar))
+          request.avatar != null
+              ? CircleAvatar(backgroundImage: NetworkImage(request.avatar!))
               : CircleAvatar(child: Text("U")),
           SizedBox(width: 20),
-          Text(request.username,
+          Text(request.username!,
               style: TextStyle(color: Colors.black, fontSize: 16)),
           Spacer(),
           ElevatedButton(

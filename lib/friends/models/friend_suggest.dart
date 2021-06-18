@@ -1,7 +1,7 @@
 class FriendSuggest {
   final int id;
-  final String username;
-  final String avatar;
+  final String? username;
+  final String? avatar;
   final String created;
 
   FriendSuggest(

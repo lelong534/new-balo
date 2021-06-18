@@ -1,7 +1,7 @@
 class FriendRequest {
   final int id;
-  final String username;
-  final String avatar;
+  final String? username;
+  final String? avatar;
   final String created;
 
   FriendRequest(

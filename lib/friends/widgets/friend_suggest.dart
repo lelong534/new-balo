@@ -48,13 +48,13 @@ class _FriendSuggestScreenState extends State<FriendSuggestScreen> {
                               padding: EdgeInsets.symmetric(vertical: 6),
                               child: Row(
                                 children: <Widget>[
-                                  user.avatar != "avatar.png"
+                                  user.avatar != null
                                       ? CircleAvatar(
                                           backgroundImage:
-                                              NetworkImage(user.avatar))
+                                              NetworkImage(user.avatar!))
                                       : CircleAvatar(child: Text("U")),
                                   SizedBox(width: 20),
-                                  Text(user.username,
+                                  Text(user.username!,
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 16)),
                                   Spacer(),

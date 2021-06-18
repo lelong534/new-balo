@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:video_player/video_player.dart';
 
 class AddPost extends StatefulWidget {
   final Function onSave;
@@ -21,9 +24,16 @@ class _AddPostState extends State<AddPost> {
   String errorText = "No Error Dectected";
   final _describedController = TextEditingController();
   List<MultipartFile> imagesFile = [];
+  VideoPlayerController? _controller;
 
   Widget buildGridView() {
-    if (imagesAsset.length > 0)
+    if (video != null && mounted) {
+      return _controller!.value.isInitialized
+          ? Chewie(
+              controller: ChewieController(
+                  videoPlayerController: VideoPlayerController.file(video!)))
+          : Container();
+    } else if (imagesAsset.length > 0)
       return GridView.count(
         crossAxisCount: 2,
         children: List.generate(imagesAsset.length, (index) {
@@ -152,17 +162,49 @@ class _AddPostState extends State<AddPost> {
           Expanded(
             child: buildGridView(),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-              child: Text("Chọn ảnh"),
-              onPressed: loadAssets,
-              style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ElevatedButton(
+                    child: Text("Chọn ảnh"),
+                    onPressed: loadAssets,
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ElevatedButton(
+                    child: Text("Chọn video"),
+                    onPressed: () async {
+                      final PickedFile? file = await ImagePicker()
+                          .getVideo(source: ImageSource.gallery);
+
+                      File fileMedia = File(file!.path);
+
+                      setState(() {
+                        video = fileMedia;
+                      });
+
+                      _controller = VideoPlayerController.file(video!)
+                        ..initialize();
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

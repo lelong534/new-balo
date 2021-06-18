@@ -70,37 +70,6 @@ class ChatApiClient {
         'type': message.type,
       },
     });
-
-    DocumentSnapshot documentSnapshot =
-        await firestore.collection('pushtokens').doc(message.receiver.id).get();
-    String? token = documentSnapshot.data()!['token'];
-    if (token != null) {
-      Uri url = Uri.https('fcm.googleapis.com', '/fcm/send');
-      http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAACQpsJTw:APA91bHq3SS8Eudfd8pInV8-39xIXZXAKcTF5mG_R8kN3LeHFyNtV7-zzFrSIfh_zxt0c12D_sp2SdtUJFwLtqORW2ETVN8DvG_H_nd_nyZGBOzrUMy1AqYctJgIFprkZKSW0I37fy5h',
-        },
-        body: jsonEncode(
-          {
-            'notification': {
-              'title': message.sender.name,
-              'body': message.content,
-            },
-            'priority': 'high',
-            'data': {
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'id': '1',
-              'status': 'done',
-              'sound': 'default',
-            },
-            'to': token,
-          },
-        ),
-      );
-    }
   }
 
   Future<List<Conversation>> getConversations() async {

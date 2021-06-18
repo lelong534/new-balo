@@ -12,7 +12,7 @@ class FriendSuggestScreen extends StatefulWidget {
 class _FriendSuggestScreenState extends State<FriendSuggestScreen> {
   int index = 0;
   int count = 20;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +54,7 @@ class _FriendSuggestScreenState extends State<FriendSuggestScreen> {
                                               NetworkImage(user.avatar))
                                       : CircleAvatar(child: Text("U")),
                                   SizedBox(width: 20),
-                                  Text(
-                                      user.username,
+                                  Text(user.username,
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 16)),
                                   Spacer(),

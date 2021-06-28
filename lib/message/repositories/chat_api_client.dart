@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_zalo_bloc/authentication/models/models.dart';
 import 'package:flutter_zalo_bloc/message/helpers/helpers.dart';
 import 'package:flutter_zalo_bloc/message/models/models.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatApiClient {

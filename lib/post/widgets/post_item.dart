@@ -197,6 +197,12 @@ class PostItem extends StatelessWidget {
             buildPostHeader(post),
             buildPostContent(post),
             buildPostImage(post),
+            if (post.video != null)
+              // Chewie(
+              //     controller: ChewieController(
+              //         videoPlayerController:
+              //             VideoPlayerController.network(post.video!))),
+              Text(post.video!),
             buildPostFooter(post),
             SizedBox(height: 6)
           ],

@@ -28,11 +28,9 @@ class _AddPostState extends State<AddPost> {
 
   Widget buildGridView() {
     if (video != null && mounted) {
-      return _controller!.value.isInitialized
-          ? Chewie(
-              controller: ChewieController(
-                  videoPlayerController: VideoPlayerController.file(video!)))
-          : Container();
+      return Chewie(
+          controller: ChewieController(
+              videoPlayerController: VideoPlayerController.file(video!)));
     } else if (imagesAsset.length > 0)
       return GridView.count(
         crossAxisCount: 2,
@@ -102,6 +100,7 @@ class _AddPostState extends State<AddPost> {
   clearImage() {
     setState(() {
       imagesFile = [];
+      _controller?.dispose();
       Navigator.pop(context);
     });
   }

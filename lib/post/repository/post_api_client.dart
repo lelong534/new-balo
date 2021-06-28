@@ -79,7 +79,8 @@ class PostApiClient {
         "video": video,
         "described": described,
       });
-      await _dio.post(addPostUrl, data: formData);
+      Response addresponse = await _dio.post(addPostUrl, data: formData);
+      print(addresponse);
 
       Response response = await _dio.post(getListPostsUrl, data: {
         "token": token,

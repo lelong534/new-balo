@@ -1,4 +1,3 @@
-import 'package:flutter_zalo_bloc/search/bloc/search_bloc.dart';
 import 'package:flutter_zalo_bloc/search/models/search_response.dart';
 import 'package:flutter_zalo_bloc/search/repositories/search_api_client.dart';
 

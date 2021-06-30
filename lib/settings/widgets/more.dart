@@ -32,9 +32,9 @@ class _MoreState extends State<More> {
           children: <Widget>[
             ListTile(
               leading: CircleAvatar(
-                      backgroundImage: NetworkImage(user.avatar, scale: 0.1),
-                      radius: 30,
-                    ),
+                backgroundImage: NetworkImage(user.avatar, scale: 0.1),
+                radius: 30,
+              ),
               title: GestureDetector(
                 child: Text(
                   user.name,
@@ -194,9 +194,7 @@ class _MoreState extends State<More> {
             ),
             ListTile(
               title: Text("Đăng xuất"),
-              onTap: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
-              },
+              onTap: _showMyDialog,
             ),
           ],
         );
@@ -217,5 +215,32 @@ class _MoreState extends State<More> {
         subtitle: Text("Xem trang cá nhân"),
       );
     }));
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text('Bạn muốn đăng xuất tài khoản này'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('KHÔNG'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
+              },
+              child: Text('CÓ'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

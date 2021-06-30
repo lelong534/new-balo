@@ -76,12 +76,13 @@ class PostApiClient {
       var formData = FormData.fromMap({
         "token": token,
         "image[]": images,
-        "video": video,
+        "video" : await MultipartFile.fromFile(video!.path),
         "described": described,
       });
-      Response addresponse = await _dio.post(addPostUrl, data: formData);
-      print(addresponse);
-
+      print("========================");
+      Response res = await _dio.post(addPostUrl, data: formData);
+      print(res);
+      print("========================");
       Response response = await _dio.post(getListPostsUrl, data: {
         "token": token,
         "index": 0,

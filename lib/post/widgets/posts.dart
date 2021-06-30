@@ -78,128 +78,139 @@ class _PostsState extends State<Posts> {
               ),
             );
           }
+          
+          Future<void> _getData() async {
+            BlocProvider.of<PostBloc>(context)
+              ..add(LoadingPostEvent(index: 0, count: 20));
+          }
+
           if (state is ReceivedPostState) {
             List<Post> posts = state.posts.posts;
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                    height: 80,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          hintText: "Hôm nay bạn thế nào?",
-                          hintStyle: TextStyle(
-                            color: Colors.black.withOpacity(0.6),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) {
-                                return AddPost(
-                                  onSave: (images, video, description) {
-                                    BlocProvider.of<PostBloc>(context).add(
-                                      AddPostEvent(
-                                        images: images,
-                                        video: video,
-                                        description: description,
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+            return RefreshIndicator(
+              onRefresh: _getData,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.white,
+                      height: 80,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextField(
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: "Hôm nay bạn thế nào?",
+                            hintStyle: TextStyle(
+                              color: Colors.black.withOpacity(0.6),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemBuilder: (BuildContext context, index) {
-                        final post = posts[index];
-                        return PostItem(
-                          post: post,
+                            border: InputBorder.none,
+                          ),
                           onTap: () {
-                            if (!post.isLiked)
-                              return BlocProvider.of<PostBloc>(context).add(
-                                LikePostEvent(post),
-                              );
-                            else
-                              BlocProvider.of<PostBloc>(context).add(
-                                UnLikePostEvent(post),
-                              );
-                          },
-                          onDetail: () async {
-                            await Navigator.of(context).push(
+                            Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) {
-                                  return PostDetail(
-                                    postDetail: post,
-                                    onTap: () {
-                                      if (!post.isLiked)
-                                        return BlocProvider.of<PostBloc>(
-                                                context)
-                                            .add(
-                                          LikePostEvent(post),
-                                        );
-                                      else
-                                        BlocProvider.of<PostBloc>(context).add(
-                                          UnLikePostEvent(post),
-                                        );
+                                  return AddPost(
+                                    onSave: (images, video, description) {
+                                      BlocProvider.of<PostBloc>(context).add(
+                                        AddPostEvent(
+                                          images: images,
+                                          video: video,
+                                          description: description,
+                                        ),
+                                      );
                                     },
                                   );
                                 },
                               ),
                             );
                           },
-                          onClickProfile: () async {
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) {
-                                  return Profile(
-                                    userId: post.authorId,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      itemCount: posts.length,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<PostBloc>(context)
-                        ..add(LoadingMorePostEvent(
-                            index: index, count: count + 20));
-                    },
-                    child: Text(
-                      "Xem thêm",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
+                        ),
                       ),
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          return Colors.white54;
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemBuilder: (BuildContext context, index) {
+                          final post = posts[index];
+                          return PostItem(
+                            post: post,
+                            onTap: () {
+                              if (!post.isLiked)
+                                return BlocProvider.of<PostBloc>(context).add(
+                                  LikePostEvent(post),
+                                );
+                              else
+                                BlocProvider.of<PostBloc>(context).add(
+                                  UnLikePostEvent(post),
+                                );
+                            },
+                            onDetail: () async {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return PostDetail(
+                                      postDetail: post,
+                                      onTap: () {
+                                        if (!post.isLiked)
+                                          return BlocProvider.of<PostBloc>(
+                                                  context)
+                                              .add(
+                                            LikePostEvent(post),
+                                          );
+                                        else
+                                          BlocProvider.of<PostBloc>(context)
+                                              .add(
+                                            UnLikePostEvent(post),
+                                          );
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            onClickProfile: () async {
+                              await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return Profile(
+                                      userId: post.authorId,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          );
                         },
+                        itemCount: posts.length,
                       ),
                     ),
-                  ),
-                ],
+                    ElevatedButton(
+                      onPressed: () {
+                        BlocProvider.of<PostBloc>(context)
+                          ..add(LoadingMorePostEvent(
+                              index: index, count: count + 20));
+                      },
+                      child: Text(
+                        "Xem thêm",
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0)),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            return Colors.white54;
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }

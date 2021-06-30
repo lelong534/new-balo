@@ -1,10 +1,12 @@
+import 'package:chewie/chewie.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:video_player/video_player.dart';
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatefulWidget {
   final Post post;
   final dynamic onTap;
   final dynamic onDetail;
@@ -17,6 +19,11 @@ class PostItem extends StatelessWidget {
       required this.onClickProfile})
       : super(key: key);
 
+  @override
+  _PostItemState createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
   buildPostHeader(Post post) {
     var avatarLink;
     avatarLink = post.authorAvatar;
@@ -25,7 +32,7 @@ class PostItem extends StatelessWidget {
           ? GestureDetector(
               onTap: () {
                 print(post.authorId);
-                onClickProfile();
+                widget.onClickProfile();
               },
               child: CircleAvatar(
                 backgroundImage: NetworkImage(avatarLink, scale: 0.1),
@@ -34,7 +41,7 @@ class PostItem extends StatelessWidget {
           : GestureDetector(
               onTap: () {
                 print(post.authorId);
-                onClickProfile();
+                widget.onClickProfile();
               },
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/avatar.png'),
@@ -42,8 +49,7 @@ class PostItem extends StatelessWidget {
             ),
       title: GestureDetector(
         onTap: () {
-          print(post.authorId);
-          onClickProfile();
+          widget.onClickProfile();
         },
         child: Text(
           post.authorName,
@@ -56,12 +62,32 @@ class PostItem extends StatelessWidget {
       subtitle: Text(TimeHelper.readTimestamp(post.createdAt)),
       trailing: IconButton(
         icon: Icon(EvaIcons.moreVerticalOutline),
-        onPressed: () {
-          // showModalBottomSheet(
-          // context: context,
-          // builder: (context) => ActionWidget(postid: post.id));
-        },
+        onPressed: _showDialog,
       ),
+    );
+  }
+
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          children: [
+            SimpleDialogOption(
+              onPressed: () {},
+              child: Text("Xóa bài viết"),
+            ),
+            SimpleDialogOption(
+              onPressed: () {},
+              child: Text("Ẩn bài viết"),
+            ),
+            SimpleDialogOption(
+              onPressed: () {},
+              child: Text("Chặn người này"),
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -162,7 +188,7 @@ class PostItem extends StatelessWidget {
           children: <Widget>[
             Padding(padding: EdgeInsets.only(top: 60.0, left: 20.0)),
             GestureDetector(
-              onTap: onTap,
+              onTap: widget.onTap,
               child: Icon(
                 post.isLiked ? EvaIcons.heart : EvaIcons.heartOutline,
                 size: 28.0,
@@ -173,7 +199,7 @@ class PostItem extends StatelessWidget {
             Text(post.like.toString()),
             Padding(padding: EdgeInsets.only(right: 20.0)),
             GestureDetector(
-              onTap: onDetail,
+              onTap: widget.onDetail,
               child: Icon(
                 EvaIcons.messageCircleOutline,
                 size: 28.0,
@@ -194,16 +220,26 @@ class PostItem extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: <Widget>[
-            buildPostHeader(post),
-            buildPostContent(post),
-            buildPostImage(post),
-            if (post.video != null)
-              // Chewie(
-              //     controller: ChewieController(
-              //         videoPlayerController:
-              //             VideoPlayerController.network(post.video!))),
-              Text(post.video!),
-            buildPostFooter(post),
+            buildPostHeader(widget.post),
+            buildPostContent(widget.post),
+            buildPostImage(widget.post),
+            if (widget.post.video!.length != 0)
+              AspectRatio(
+                aspectRatio: VideoPlayerController.network(
+                        widget.post.video![0]["link"]!)
+                    .value
+                    .aspectRatio,
+                child: Chewie(
+                  controller: ChewieController(
+                    videoPlayerController: VideoPlayerController.network(
+                      widget.post.video![0]["link"]!,
+                    ),
+                    autoInitialize: true,
+                    showOptions: false,
+                  ),
+                ),
+              ),
+            buildPostFooter(widget.post),
             SizedBox(height: 6)
           ],
         ),

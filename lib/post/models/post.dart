@@ -27,7 +27,7 @@ class Post {
   int id;
   String described;
   List images;
-  String? video;
+  List? video;
   int like;
   int comment;
   String createdAt;
@@ -41,7 +41,7 @@ class Post {
         id: json["id"],
         described: json["described"],
         images: json["images"],
-        video: json["video"],
+        video: json["videos"],
         like: json["like"],
         comment: json["comment"],
         createdAt: json["created_at"],

@@ -48,10 +48,6 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future<void> loadAssets() async {
-    // setState(() {
-    //   imagesAsset = [];
-    // });
-
     List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
 
@@ -80,14 +76,12 @@ class _AddPostState extends State<AddPost> {
       for (var asset in resultList) {
         ByteData byteData = await asset.getByteData(quality: 80);
 
-        // if (byteData != null) {
         List<int> imageData = byteData.buffer.asUint8List();
         MultipartFile multipartFile = MultipartFile.fromBytes(
           imageData,
           filename: 'test.jpg',
         );
         imagesFile.add(multipartFile);
-        // }
       }
     }
 
@@ -122,6 +116,7 @@ class _AddPostState extends State<AddPost> {
             child: TextButton(
               onPressed: () {
                 if (_describedController.text != '') {
+                  _controller?.dispose();
                   widget.onSave(imagesFile, video, _describedController.text);
                   Navigator.pop(context);
                 }

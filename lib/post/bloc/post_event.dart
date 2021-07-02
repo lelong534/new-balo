@@ -33,11 +33,19 @@ class UnLikePostEvent extends PostEvent {
 
 class AddPostEvent extends PostEvent {
   final List<MultipartFile>? images;
-  final File? video;
   final String description;
 
   AddPostEvent({
     this.images,
+    required this.description,
+  });
+}
+
+class AddPostVideoEvent extends PostEvent {
+  final File? video;
+  final String description;
+
+  AddPostVideoEvent({
     this.video,
     required this.description,
   });

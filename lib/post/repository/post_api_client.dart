@@ -63,7 +63,7 @@ class PostApiClient {
   }
 
   Future<PostResponse> addPost(
-      List<MultipartFile>? images, File? video, String described) async {
+      List<MultipartFile>? images, String described) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = "";
 
@@ -76,13 +76,37 @@ class PostApiClient {
       var formData = FormData.fromMap({
         "token": token,
         "image[]": images,
-        "video" : await MultipartFile.fromFile(video!.path),
         "described": described,
       });
-      print("========================");
-      Response res = await _dio.post(addPostUrl, data: formData);
-      print(res);
-      print("========================");
+      await _dio.post(addPostUrl, data: formData);
+      Response response = await _dio.post(getListPostsUrl, data: {
+        "token": token,
+        "index": 0,
+        "count": 20,
+      });
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
+
+  Future<PostResponse> addPostVideo(File? video, String described) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      var formData = FormData.fromMap({
+        "token": token,
+        "video": await MultipartFile.fromFile(video!.path),
+        "described": described,
+      });
+      await _dio.post(addPostUrl, data: formData);
       Response response = await _dio.post(getListPostsUrl, data: {
         "token": token,
         "index": 0,

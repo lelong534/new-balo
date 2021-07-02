@@ -213,6 +213,27 @@ class _PostItemState extends State<PostItem> {
     );
   }
 
+  Widget buildPostVideo(Post post) {
+    if (widget.post.video!.length != 0)
+      return AspectRatio(
+        aspectRatio:
+            VideoPlayerController.network(widget.post.video![0]["link"]!)
+                .value
+                .aspectRatio,
+        child: Chewie(
+          controller: ChewieController(
+            videoPlayerController: VideoPlayerController.network(
+              widget.post.video![0]["link"]!,
+            ),
+            autoInitialize: true,
+            showOptions: false,
+          ),
+        ),
+      );
+    else
+      return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -223,22 +244,7 @@ class _PostItemState extends State<PostItem> {
             buildPostHeader(widget.post),
             buildPostContent(widget.post),
             buildPostImage(widget.post),
-            if (widget.post.video!.length != 0)
-              AspectRatio(
-                aspectRatio: VideoPlayerController.network(
-                        widget.post.video![0]["link"]!)
-                    .value
-                    .aspectRatio,
-                child: Chewie(
-                  controller: ChewieController(
-                    videoPlayerController: VideoPlayerController.network(
-                      widget.post.video![0]["link"]!,
-                    ),
-                    autoInitialize: true,
-                    showOptions: false,
-                  ),
-                ),
-              ),
+            buildPostVideo(widget.post),
             buildPostFooter(widget.post),
             SizedBox(height: 6)
           ],

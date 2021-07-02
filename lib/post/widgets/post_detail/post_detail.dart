@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zalo_bloc/post/bloc/comment.dart';
 import 'package:flutter_zalo_bloc/post/bloc/post_bloc.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:flutter_zalo_bloc/post/repository/repositories.dart';
@@ -32,10 +33,10 @@ class _PostDetailState extends State<PostDetail> {
       providers: [
         BlocProvider<PostBloc>(
             create: (context) => PostBloc(postRepository: postRepository)),
-        // BlocProvider<CommentBloc>(
-        //     create: (context) => CommentBloc()
-        //       ..add(
-        //           LoadingCommentEvent(index: 0, postId: widget.postDetail.id))),
+        BlocProvider<CommentBloc>(
+            create: (context) => CommentBloc()
+              ..add(
+                  LoadingCommentEvent(index: 0, postId: widget.postDetail.id))),
       ],
       child: Scaffold(
         appBar: AppBar(

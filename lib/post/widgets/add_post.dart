@@ -11,8 +11,10 @@ import 'package:video_player/video_player.dart';
 
 class AddPost extends StatefulWidget {
   final Function onSave;
+  final Function onSaveVideo;
 
-  AddPost({Key? key, required this.onSave}) : super(key: key);
+  AddPost({Key? key, required this.onSave, required this.onSaveVideo})
+      : super(key: key);
 
   @override
   _AddPostState createState() => _AddPostState();
@@ -25,12 +27,20 @@ class _AddPostState extends State<AddPost> {
   final _describedController = TextEditingController();
   List<MultipartFile> imagesFile = [];
   VideoPlayerController? _controller;
+  bool hasImage = false;
+  bool hasVideo = false;
 
   Widget buildGridView() {
     if (video != null && mounted) {
-      return Chewie(
+      return Container(
+        height: 100,
+        child: Chewie(
           controller: ChewieController(
-              videoPlayerController: VideoPlayerController.file(video!)));
+            videoPlayerController: VideoPlayerController.file(video!),
+            autoInitialize: true,
+          ),
+        ),
+      );
     } else if (imagesAsset.length > 0)
       return GridView.count(
         crossAxisCount: 2,
@@ -47,9 +57,11 @@ class _AddPostState extends State<AddPost> {
       return Container();
   }
 
-  Future<void> loadAssets() async {
+  Future<void> _loadImages() async {
     List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
+
+    if (hasVideo) return;
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -67,9 +79,6 @@ class _AddPostState extends State<AddPost> {
       error = e.toString();
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     if (resultList.length > 0) {
@@ -87,13 +96,48 @@ class _AddPostState extends State<AddPost> {
 
     setState(() {
       imagesAsset = resultList;
+      hasImage = true;
       errorText = error;
     });
+  }
+
+  Future<void> _loadVideo() async {
+    if (hasImage) return;
+
+    final PickedFile? file =
+        await ImagePicker().getVideo(source: ImageSource.gallery);
+
+    if (file != null) {
+      File fileMedia = File(file.path);
+      setState(() {
+        video = fileMedia;
+        hasVideo = true;
+      });
+
+      _controller = VideoPlayerController.file(video!)..initialize();
+    }
+  }
+
+  Future<void> _submitPost() async {
+    if (_describedController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Hãy nhập thêm nội dung bài viết")),
+      );
+    } else if (hasVideo && !hasImage) {
+      _controller?.dispose();
+      widget.onSaveVideo(video, _describedController.text);
+      Navigator.pop(context);
+    } else if (hasImage && !hasVideo) {
+      widget.onSave(imagesFile, _describedController.text);
+      Navigator.pop(context);
+    }
   }
 
   clearImage() {
     setState(() {
       imagesFile = [];
+      hasImage = false;
+      hasVideo = false;
       _controller?.dispose();
       Navigator.pop(context);
     });
@@ -114,13 +158,7 @@ class _AddPostState extends State<AddPost> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: TextButton(
-              onPressed: () {
-                if (_describedController.text != '') {
-                  _controller?.dispose();
-                  widget.onSave(imagesFile, video, _describedController.text);
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: _submitPost,
               child: Text(
                 'ĐĂNG',
                 style: TextStyle(
@@ -163,11 +201,13 @@ class _AddPostState extends State<AddPost> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
                     child: Text("Chọn ảnh"),
-                    onPressed: loadAssets,
+                    onPressed: _loadImages,
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
+                      backgroundColor:
+                          hasVideo ? Colors.blue.shade100 : Colors.blue,
                     ),
                   ),
                 ),
@@ -177,23 +217,13 @@ class _AddPostState extends State<AddPost> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
                     child: Text("Chọn video"),
-                    onPressed: () async {
-                      final PickedFile? file = await ImagePicker()
-                          .getVideo(source: ImageSource.gallery);
-
-                      File fileMedia = File(file!.path);
-
-                      setState(() {
-                        video = fileMedia;
-                      });
-
-                      _controller = VideoPlayerController.file(video!)
-                        ..initialize();
-                    },
+                    onPressed: _loadVideo,
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
+                      backgroundColor:
+                          hasImage ? Colors.blue.shade100 : Colors.blue,
                     ),
                   ),
                 ),

@@ -18,7 +18,7 @@ class Posts extends StatefulWidget {
 
 class _PostsState extends State<Posts> {
   int index = 0;
-  int count = 20;
+  int count = 50;
   final postRepository = PostRepository(postApiClient: PostApiClient());
 
   @override
@@ -55,10 +55,17 @@ class _PostsState extends State<Posts> {
                             MaterialPageRoute(
                               builder: (_) {
                                 return AddPost(
-                                  onSave: (images, video, description) {
+                                  onSave: (images, description) {
                                     BlocProvider.of<PostBloc>(context).add(
                                       AddPostEvent(
                                         images: images,
+                                        description: description,
+                                      ),
+                                    );
+                                  },
+                                  onSaveVideo: (video, description) {
+                                    BlocProvider.of<PostBloc>(context).add(
+                                      AddPostVideoEvent(
                                         video: video,
                                         description: description,
                                       ),
@@ -78,10 +85,10 @@ class _PostsState extends State<Posts> {
               ),
             );
           }
-          
+
           Future<void> _getData() async {
             BlocProvider.of<PostBloc>(context)
-              ..add(LoadingPostEvent(index: 0, count: 20));
+              ..add(LoadingPostEvent(index: 0, count: 50));
           }
 
           if (state is ReceivedPostState) {
@@ -110,10 +117,17 @@ class _PostsState extends State<Posts> {
                               MaterialPageRoute(
                                 builder: (_) {
                                   return AddPost(
-                                    onSave: (images, video, description) {
+                                    onSave: (images, description) {
                                       BlocProvider.of<PostBloc>(context).add(
                                         AddPostEvent(
                                           images: images,
+                                          description: description,
+                                        ),
+                                      );
+                                    },
+                                    onSaveVideo: (video, description) {
+                                      BlocProvider.of<PostBloc>(context).add(
+                                        AddPostVideoEvent(
                                           video: video,
                                           description: description,
                                         ),
@@ -186,29 +200,15 @@ class _PostsState extends State<Posts> {
                         itemCount: posts.length,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         BlocProvider.of<PostBloc>(context)
                           ..add(LoadingMorePostEvent(
                               index: index, count: count + 20));
                       },
-                      child: Text(
-                        "Xem thêm",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            return Colors.white54;
-                          },
-                        ),
-                      ),
+                      child: Icon(Icons.replay),
                     ),
+                    SizedBox(height: 5)
                   ],
                 ),
               ),
@@ -233,10 +233,17 @@ class _PostsState extends State<Posts> {
                     MaterialPageRoute(
                       builder: (_) {
                         return AddPost(
-                          onSave: (images, video, description) {
+                          onSave: (images, description) {
                             BlocProvider.of<PostBloc>(context).add(
                               AddPostEvent(
                                 images: images,
+                                description: description,
+                              ),
+                            );
+                          },
+                          onSaveVideo: (video, description) {
+                            BlocProvider.of<PostBloc>(context).add(
+                              AddPostVideoEvent(
                                 video: video,
                                 description: description,
                               ),

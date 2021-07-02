@@ -1,5 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zalo_bloc/post/bloc/comment.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 
 class AddComment extends StatelessWidget {
@@ -37,9 +39,9 @@ class AddComment extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onPressed: () {
-                  // BlocProvider.of<CommentBloc>(context)
-                  //   ..add(AddCommentEvent(
-                  //       comment: _commentTextController.text, postId: post.id));
+                  BlocProvider.of<CommentBloc>(context)
+                    ..add(AddCommentEvent(
+                        comment: _commentTextController.text, postId: post.id));
                 },
               ),
             )

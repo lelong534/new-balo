@@ -75,14 +75,16 @@ class _ProfileState extends State<Profile> {
                     avatar: NetworkImage(user.user.avatar, scale: 0.1),
                     coverImage: NetworkImage(user.user.coverImage),
                     title: user.user.name,
-                    subtitle: user.user.description, actions: [],
+                    subtitle: user.user.description,
+                    actions: [],
                   );
                 }
                 return ProfileHeader(
                   avatar: AssetImage('assets/avatar.png'),
                   coverImage: AssetImage('assets/avatar.png'),
                   title: "",
-                  subtitle: "Thêm giới thiệu bản thân", actions: [],
+                  subtitle: "Thêm giới thiệu bản thân",
+                  actions: [],
                 );
               }),
               const SizedBox(height: 10.0),
@@ -98,10 +100,17 @@ class _ProfileState extends State<Profile> {
                             MaterialPageRoute(
                               builder: (_) {
                                 return AddPost(
-                                  onSave: (images, video, description) {
+                                  onSave: (images, description) {
                                     BlocProvider.of<PostBloc>(context).add(
                                       AddPostEvent(
                                         images: images,
+                                        description: description,
+                                      ),
+                                    );
+                                  },
+                                  onSaveVideo: (video, description) {
+                                    BlocProvider.of<PostBloc>(context).add(
+                                      AddPostVideoEvent(
                                         video: video,
                                         description: description,
                                       ),

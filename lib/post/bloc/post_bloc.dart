@@ -53,8 +53,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     if (event is AddPostEvent) {
       try {
-        yield await postRepository.addPost(
-            event.images, event.video, event.description);
+        yield await postRepository.addPost(event.images, event.description);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
+    if (event is AddPostVideoEvent) {
+      try {
+        yield await postRepository.addPostVideo(event.video, event.description);
       } catch (e) {
         yield ErrorPostState(e.toString());
       }

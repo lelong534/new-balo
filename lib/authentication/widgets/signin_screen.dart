@@ -27,8 +27,6 @@ class _SigninScreenState extends State<SigninScreen> {
   final passwordValidator = MultiValidator([
     RequiredValidator(errorText: 'Bạn quên nhập ô này'),
     MinLengthValidator(8, errorText: 'Mật khẩu dài ít nhất 8 kí tự'),
-    // PatternValidator(r'(?=.*?[#?!@$%^&*-])',
-    //     errorText: 'Cần nhập thêm kí tự đặc biệt')
   ]);
 
   @override

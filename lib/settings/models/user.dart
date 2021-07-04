@@ -11,8 +11,8 @@ class User {
       {required this.id,
       this.name = "Người dùng",
       required this.phonenumber,
-      this.avatar = "avatar.png",
-      this.coverImage = "avatar.png",
+      required this.avatar,
+      required this.coverImage,
       required this.description,
       required this.address});
 
@@ -20,10 +20,11 @@ class User {
       : id = json["id"],
         name = json["name"],
         phonenumber = json["phone_number"],
-        avatar = json["avatar"],
-        coverImage = json["cover_image"],
-        description = json["description"],
-        address = json["address"];
+        avatar = json["avatar"] == null ? "avatar" : json["avatar"],
+        coverImage =
+            json["cover_image"] == null ? "avatar" : json["cover_image"],
+        description = json["description"] == null ? " " : json["description"],
+        address = json["address"] == null ? " " : json["address"];
 
   Map<String, dynamic> toJson() => {
         "id": id,

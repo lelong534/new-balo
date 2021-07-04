@@ -1,7 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:video_player/video_player.dart';
@@ -35,49 +34,6 @@ class _PostItemState extends State<PostItem> {
     super.dispose();
   }
 
-  buildPostHeader(Post post) {
-    var avatarLink;
-    avatarLink = post.authorAvatar;
-    return ListTile(
-      leading: avatarLink != "avatar"
-          ? GestureDetector(
-              onTap: () {
-                print(post.authorId);
-                widget.onClickProfile();
-              },
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(avatarLink, scale: 0.1),
-              ),
-            )
-          : GestureDetector(
-              onTap: () {
-                print(post.authorId);
-                widget.onClickProfile();
-              },
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/avatar.png'),
-              ),
-            ),
-      title: GestureDetector(
-        onTap: () {
-          widget.onClickProfile();
-        },
-        child: Text(
-          post.authorName,
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      subtitle: Text(TimeHelper.readTimestamp(post.createdAt)),
-      trailing: IconButton(
-        icon: Icon(EvaIcons.moreVerticalOutline),
-        onPressed: _showDialog,
-      ),
-    );
-  }
-
   Future<void> _showDialog() async {
     return showDialog<void>(
       context: context,
@@ -86,12 +42,12 @@ class _PostItemState extends State<PostItem> {
           children: [
             SimpleDialogOption(
               onPressed: () {},
-              child: Text("Ẩn bài viết"),
+              child: Text("Xóa bài viết"),
             ),
             SimpleDialogOption(
               onPressed: () {},
-              child: Text("Chặn người này"),
-            )
+              child: Text("Ẩn bài viết"),
+            ),
           ],
         );
       },
@@ -181,7 +137,7 @@ class _PostItemState extends State<PostItem> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Container(
-            height: 300,
+            height: 200,
             child: CachedNetworkImage(
               placeholder: (context, url) =>
                   Center(child: CircularProgressIndicator()),
@@ -222,6 +178,11 @@ class _PostItemState extends State<PostItem> {
             ),
             Padding(padding: EdgeInsets.only(right: 5.0)),
             Text(post.comment.toString()),
+            Spacer(),
+            IconButton(
+              onPressed: _showDialog,
+              icon: Icon(EvaIcons.moreVerticalOutline),
+            )
           ],
         ),
       ],
@@ -252,17 +213,19 @@ class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            buildPostHeader(widget.post),
-            buildPostContent(widget.post),
-            buildPostImage(widget.post),
-            buildPostVideo(widget.post),
-            buildPostFooter(widget.post),
-            SizedBox(height: 6)
-          ],
+      ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              buildPostContent(widget.post),
+              buildPostImage(widget.post),
+              buildPostVideo(widget.post),
+              buildPostFooter(widget.post),
+              SizedBox(height: 6)
+            ],
+          ),
         ),
       ),
       SizedBox(height: 10)

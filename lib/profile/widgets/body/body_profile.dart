@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/post/models/post_response.dart';
-import 'package:flutter_zalo_bloc/post/widgets/post_item.dart';
+import 'package:flutter_zalo_bloc/profile/widgets/body/post_item.dart';
 import 'package:timelines/timelines.dart';
 
 class BodyProfile extends StatelessWidget {
@@ -38,6 +39,22 @@ class BodyProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          TimeHelper.readTimestamp(
+                              posts.posts[index].createdAt),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        color: Colors.grey,
+                      ),
+                    ),
                     PostItem(
                       post: posts.posts[index],
                       onClickProfile: null,

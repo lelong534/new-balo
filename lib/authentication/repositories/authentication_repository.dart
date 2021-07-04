@@ -33,6 +33,18 @@ class AuthenticationRepository {
     );
   }
 
+  Future<dynamic> signup({
+    required String name,
+    required String phonenumber,
+    required String password,
+  }) async {
+    return authenticationApiClient.signup(
+      name: name,
+      phonenumber: phonenumber,
+      password: password,
+    );
+  }
+
   Future<void> signout({required String token}) async {
     await authenticationApiClient.signout(token: token);
   }

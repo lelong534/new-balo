@@ -32,7 +32,7 @@ class _HomepageState extends State<Homepage> {
               end: Alignment.bottomRight,
               colors: <Color>[
                 Colors.blue,
-                Colors.blue.shade300,
+                Colors.blue.shade400,
               ],
             ),
           ),
@@ -82,15 +82,15 @@ class _HomepageState extends State<Homepage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(EvaIcons.globe2Outline),
-            label: 'Danh bạ',
+            label: 'Bạn bè',
           ),
           BottomNavigationBarItem(
             icon: Icon(EvaIcons.calendarOutline),
-            label: 'Nhật ký',
+            label: 'Bài đăng',
           ),
           BottomNavigationBarItem(
             icon: Icon(EvaIcons.settings2Outline),
-            label: 'Thêm',
+            label: 'Cài đặt',
           ),
         ],
         type: BottomNavigationBarType.shifting,

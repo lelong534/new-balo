@@ -118,7 +118,8 @@ class _ContactState extends State<Contact> {
             friend.avatar != null
                 ? CircleAvatar(
                     backgroundImage: NetworkImage(friend.avatar.toString()))
-                : CircleAvatar(child: Text("U")),
+                : CircleAvatar(
+                    child: Text(friend.username.toString()[0].toUpperCase())),
             SizedBox(width: 20),
             Text(
                 friend.username != null
@@ -141,7 +142,10 @@ class _ContactState extends State<Contact> {
                   ),
                 );
               },
-              icon: Icon(EvaIcons.messageCircleOutline),
+              icon: Icon(
+                Icons.sms_outlined,
+                size: 28,
+              ),
               color: Colors.black,
             )
           ],

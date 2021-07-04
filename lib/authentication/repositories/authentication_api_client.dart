@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_zalo_bloc/authentication/models/models.dart';
 import 'package:flutter_zalo_bloc/response_api_client/models/models.dart';
 import 'package:http/http.dart' as http;
@@ -54,15 +53,29 @@ class AuthenticationApiClient {
     await http.post(url);
   }
 
-  Future<void> signUp(String phonenumber, String password) async {
-    try {
-      Response response = await Dio().post(signUpUrl, data: {
-        "phone_number": phonenumber,
-        "password": password,
-      });
-      print(response);
-    } catch (error, stacktrace) {
-      print("Exception occured: $error stackTrace: $stacktrace");
+  Future<dynamic> signup({
+    required String name,
+    required String phonenumber,
+    required String password,
+  }) async {
+    Uri url = Uri.https(
+      'bk-zalo.herokuapp.com',
+      '/api/signup',
+      {
+        'name' : name,
+        'phone_number': phonenumber,
+        'password': password,
+      },
+    );
+    http.Response response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      ResponseApiClient responseApiClient =
+          responseApiClientFromJson(response.body);
+
+      return responseApiClient.message;
+    } else {
+      return 'Something went wrong!';
     }
   }
 }

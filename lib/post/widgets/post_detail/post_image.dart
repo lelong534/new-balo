@@ -16,10 +16,13 @@ class _PostImageState extends State<PostImage> {
     return Padding(
       padding: EdgeInsets.all(5),
       child: GestureDetector(
-        child: CachedNetworkImage(
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: url,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: CachedNetworkImage(
+            placeholder: (context, url) =>
+                Center(child: CircularProgressIndicator()),
+            imageUrl: url,
+          ),
         ),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {

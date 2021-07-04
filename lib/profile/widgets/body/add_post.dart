@@ -30,16 +30,6 @@ class AddPostProfile extends StatelessWidget {
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
-                Container(
-                  height: 25.0,
-                  width: 1.0,
-                  color: Colors.grey[300],
-                  margin: const EdgeInsets.only(left: 120.0, right: 10.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.panorama, color: Colors.green),
-                )
               ],
             )
           ],

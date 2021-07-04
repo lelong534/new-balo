@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zalo_bloc/profile/widgets/profile.dart';
 import 'package:flutter_zalo_bloc/search/bloc/search_bloc.dart';
 import 'package:flutter_zalo_bloc/search/models/search.dart';
 import 'package:flutter_zalo_bloc/search/repositories/search_api_client.dart';
@@ -53,15 +54,15 @@ class SearchScreen extends SearchDelegate {
                     shadowColor: Colors.white12,
                   ),
                   onPressed: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (_) {
-                    //       return Profile(
-                    //         userId: results[index].id,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) {
+                          return Profile(
+                            userId: results[index].id,
+                          );
+                        },
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
@@ -112,15 +113,19 @@ class SearchScreen extends SearchDelegate {
                                 Container(
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: Text("Kết bạn"),
+                                child: GestureDetector(
+                                    onTap: () {
+                                      print("h");
+                                    },
+                                    child: Text("Kết bạn")),
                               ),
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: [
-                                    Colors.red,
-                                    Colors.white,
+                                    Colors.blue,
+                                    Colors.blue.shade200,
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(5),

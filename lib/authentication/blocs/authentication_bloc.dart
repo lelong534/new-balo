@@ -51,7 +51,15 @@ class AuthenticationBloc
         yield AuthenticationRequestFailure(message: signinResult);
       }
     } else if (event is SignUp) {
-
+      yield SignUpStartingRequest();
+      final signUpResult = await authenticationRepository.signup(
+        name: event.name,
+        phonenumber: event.phonenumber,
+        password: event.password,
+      );
+      if (signUpResult != null) {
+        yield SignUpLoadingRequeset(message: signUpResult);
+      }
     } else if (event is SignOut) {
       if (state is Authenticated) {
         socketIoRepository.disconnect();
@@ -66,5 +74,4 @@ class AuthenticationBloc
       }
     }
   }
-
 }

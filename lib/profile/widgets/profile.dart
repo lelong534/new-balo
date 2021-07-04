@@ -71,13 +71,23 @@ class _ProfileState extends State<Profile> {
               BlocBuilder<UserBloc, UserState>(builder: (context, state) {
                 if (state is UserDetailLoadSuccess) {
                   UserResponse user = state.user;
-                  return ProfileHeader(
-                    avatar: NetworkImage(user.user.avatar, scale: 0.1),
-                    coverImage: NetworkImage(user.user.coverImage),
-                    title: user.user.name,
-                    subtitle: user.user.description,
-                    actions: [],
-                  );
+                  if (user.user.avatar != "avatar")
+                    return ProfileHeader(
+                      avatar: NetworkImage(user.user.avatar, scale: 0.1),
+                      coverImage:
+                          NetworkImage(user.user.coverImage, scale: 0.1),
+                      title: user.user.name,
+                      subtitle: user.user.description,
+                      actions: [],
+                    );
+                  else
+                    return ProfileHeader(
+                      avatar: AssetImage('assets/avatar.png'),
+                      coverImage: AssetImage('assets/avatar.png'),
+                      title: user.user.name,
+                      subtitle: user.user.description,
+                      actions: [],
+                    );
                 }
                 return ProfileHeader(
                   avatar: AssetImage('assets/avatar.png'),

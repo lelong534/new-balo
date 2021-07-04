@@ -31,10 +31,15 @@ class _MoreState extends State<More> {
         return ListView(
           children: <Widget>[
             ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(user.avatar, scale: 0.1),
-                radius: 30,
-              ),
+              leading: user.avatar != "avatar"
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(user.avatar, scale: 0.1),
+                      radius: 30,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage('assets/avatar.png'),
+                      radius: 30,
+                    ),
               title: GestureDetector(
                 child: Text(
                   user.name,

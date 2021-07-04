@@ -11,7 +11,7 @@ class FriendSuggestScreen extends StatefulWidget {
 
 class _FriendSuggestScreenState extends State<FriendSuggestScreen> {
   int index = 0;
-  int count = 20;
+  int count = 10;
 
   @override
   Widget build(BuildContext context) {

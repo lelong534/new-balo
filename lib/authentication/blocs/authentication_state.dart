@@ -31,6 +31,17 @@ class AuthenticationRequestFailure extends Unauthenticated {
   List<Object> get props => [message];
 }
 
+class SignUpStartingRequest extends AuthenticationState {}
+
+class SignUpLoadingRequeset extends AuthenticationState {
+  final String message;
+
+  SignUpLoadingRequeset({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
 class UnauthenticationRequestLoading extends Authenticated {
   UnauthenticationRequestLoading({required User user}) : super(user: user);
 }

@@ -41,7 +41,12 @@ class _MessageHomeScreenState extends State<MessageHomeScreen> {
                 } else {
                   avatarWidget = CircleAvatar(
                     backgroundColor: Colors.blue,
-                    child: Text(conversation.partner.name[0].toUpperCase()),
+                    child: Text(
+                      conversation.partner.name[0].toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   );
                 }
 

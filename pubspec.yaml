@@ -69,6 +69,9 @@ flutter:
       fonts:
         - asset: assets/fonts/ContrailOne-Regular.ttf
           weight: 700
+    - family: TiWeb
+      fonts:
+        - asset: assets/fonts/AlegreyaSans-Regular.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

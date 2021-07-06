@@ -29,6 +29,30 @@ class ReceivedPostState extends PostState {
   String toString() => 'Received Post';
 }
 
+class HidePostSuccessState extends PostState {
+  final PostResponse posts;
+
+  HidePostSuccessState(this.posts);
+
+  @override
+  List<Object> get props => [posts];
+
+  @override
+  String toString() => 'Hided Post';
+}
+
+class BlockUserSuccessState extends PostState {
+  final PostResponse posts;
+
+  BlockUserSuccessState(this.posts);
+
+  @override
+  List<Object> get props => [posts];
+
+  @override
+  String toString() => 'Hided Post';
+}
+
 class ErrorPostState extends PostState {
   final String errorMessage;
 

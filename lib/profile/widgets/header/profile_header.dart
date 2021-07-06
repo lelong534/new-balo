@@ -63,12 +63,31 @@ class ProfileHeader extends StatelessWidget {
           margin: const EdgeInsets.only(top: 130),
           child: Column(
             children: <Widget>[
-              Avatar(
-                image: avatar,
-                radius: 50,
-                backgroundColor: Colors.white,
-                borderColor: Colors.white,
-                borderWidth: 1.0,
+              Stack(
+                children: [
+                  Center(
+                    child: Avatar(
+                      image: avatar,
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      borderColor: Colors.white,
+                      borderWidth: 1.0,
+                    ),
+                  ),
+                  // GestureDetector(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     color: Colors.blue,
+                  //     padding: EdgeInsets.all(5),
+                  //     margin: EdgeInsets.fromLTRB(
+                  //         MediaQuery.of(context).size.width * 0.7, 56, 0, 0),
+                  //     child: Text(
+                  //       "Nhắn tin",
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
               Text(
                 title,
@@ -81,7 +100,7 @@ class ProfileHeader extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

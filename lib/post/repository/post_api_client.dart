@@ -13,6 +13,8 @@ class PostApiClient {
   var likePostUrl = '$mainUrl/api/like';
   var unLikePostUrl = '$mainUrl/api/un_like';
   var deletePostUrl = '$mainUrl/api/delete_post';
+  var hidePostUrl = '$mainUrl/api/hide_post';
+  var blockUserUrl = '$mainUrl/api/block';
 
   final Dio _dio = Dio();
 
@@ -138,6 +140,60 @@ class PostApiClient {
         "token": token,
         "index": 0,
         "count": 20,
+      });
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
+
+  Future<PostResponse> hidePost(Post post) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(hidePostUrl, data: {
+        "token": token,
+        "id": post.id,
+      });
+
+      Response response = await _dio.post(getListPostsUrl, data: {
+        "token": token,
+        "index": 0,
+        "count": 50,
+      });
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
+
+  Future<PostResponse> blockUser(int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(blockUserUrl, data: {
+        "token": token,
+        "user_id": userId,
+      });
+
+      Response response = await _dio.post(getListPostsUrl, data: {
+        "token": token,
+        "index": 0,
+        "count": 50,
       });
       return PostResponse.fromJson(response.data);
     } catch (error, stacktrace) {

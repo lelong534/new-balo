@@ -8,7 +8,7 @@ class PostFooter extends StatelessWidget {
   final Post post;
   final Function onTap;
 
-  PostFooter({required this.post,required this.onTap});
+  PostFooter({required this.post, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +40,16 @@ class PostFooter extends StatelessWidget {
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(right: 5.0)),
-                Text(postState.like.toString()),
+                Text(
+                  postState.like.toString(),
+                  textAlign: TextAlign.end,
+                ),
                 Padding(padding: EdgeInsets.only(right: 20.0)),
                 Icon(
                   EvaIcons.messageCircleOutline,
                   size: 28.0,
                 ),
                 Padding(padding: EdgeInsets.only(right: 5.0)),
-                Text(postState.comment.toString()),
               ],
             ),
           ],
@@ -84,7 +86,7 @@ class PostFooter extends StatelessWidget {
                 size: 28.0,
               ),
               Padding(padding: EdgeInsets.only(right: 5.0)),
-              Text(post.comment.toString()),
+              // Text(post.comment.toString()),
             ],
           ),
         ],

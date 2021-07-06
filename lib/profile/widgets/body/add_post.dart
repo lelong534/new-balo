@@ -9,12 +9,12 @@ class AddPostProfile extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(25, 5, 20, 5),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.fromLTRB(25, 5, 25, 5),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: Colors.white54,
-          borderRadius: BorderRadius.circular(2),
-          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

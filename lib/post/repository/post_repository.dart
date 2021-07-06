@@ -26,6 +26,16 @@ class PostRepository {
     return ReceivedPostState(newState);
   }
 
+  Future<PostState> hidePost(post) async {
+    PostResponse newState = await postApiClient.hidePost(post);
+    return HidePostSuccessState(newState);
+  }
+
+  Future<PostState> blockUser(int userId) async {
+    PostResponse newState = await postApiClient.blockUser(userId);
+    return BlockUserSuccessState(newState);
+  }
+
   Future<PostState> unLikePost(post) async {
     PostResponse newState = await postApiClient.unLikePost(post);
     return ReceivedPostState(newState);

@@ -43,6 +43,22 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     }
 
+    if (event is HidePostEvent) {
+      try {
+        yield await postRepository.hidePost(event.post);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
+    if (event is BlockUserEvent) {
+      try {
+        yield await postRepository.blockUser(event.userId);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
     if (event is UnLikePostEvent) {
       try {
         yield await postRepository.unLikePost(event.post);

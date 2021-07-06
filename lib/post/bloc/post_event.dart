@@ -31,6 +31,16 @@ class UnLikePostEvent extends PostEvent {
   UnLikePostEvent(this.post);
 }
 
+class HidePostEvent extends PostEvent {
+  final Post post;
+  HidePostEvent(this.post);
+}
+
+class BlockUserEvent extends PostEvent {
+  final int userId;
+  BlockUserEvent(this.userId);
+}
+
 class AddPostEvent extends PostEvent {
   final List<MultipartFile>? images;
   final String description;

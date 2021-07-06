@@ -3,18 +3,22 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
 import 'package:flutter_zalo_bloc/post/models/post.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_zalo_bloc/post/widgets/post_detail/image_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;
   final dynamic onTap;
+  final dynamic onHide;
+  final dynamic onBlock;
   final dynamic onDetail;
   final dynamic onClickProfile;
   PostItem(
       {Key? key,
       required this.post,
       required this.onTap,
+      required this.onHide,
+      required this.onBlock,
       required this.onDetail,
       required this.onClickProfile})
       : super(key: key);
@@ -27,8 +31,7 @@ class _PostItemState extends State<PostItem> {
   @override
   void dispose() {
     try {
-      VideoPlayerController.network(widget.post.video![0]["link"]!.dispose())
-          .dispose();
+      VideoPlayerController.network(widget.post.video![0]["link"]!).dispose();
     } catch (e) {
       print(e);
     }
@@ -73,25 +76,53 @@ class _PostItemState extends State<PostItem> {
       subtitle: Text(TimeHelper.readTimestamp(post.createdAt)),
       trailing: IconButton(
         icon: Icon(EvaIcons.moreVerticalOutline),
-        onPressed: _showDialog,
+        onPressed: () {
+          _showDialog(post);
+        },
       ),
     );
   }
 
-  Future<void> _showDialog() async {
+  Future<void> _showDialog(Post post) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
           children: [
             SimpleDialogOption(
-              onPressed: () {},
+              onPressed: widget.onHide,
               child: Text("Ẩn bài viết"),
             ),
             SimpleDialogOption(
-              onPressed: () {},
+              onPressed: () {
+                _showBlockDialog();
+              },
               child: Text("Chặn người này"),
             )
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showBlockDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text('Bạn có chắn chắn muốn chặn người này?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('KHÔNG'),
+            ),
+            TextButton(
+              onPressed: widget.onBlock,
+              child: Text('CÓ'),
+            ),
           ],
         );
       },
@@ -181,16 +212,26 @@ class _PostItemState extends State<PostItem> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15.0),
           child: Container(
-            height: 300,
-            child: CachedNetworkImage(
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              imageUrl: url,
+            height: 240,
+            // child: CachedNetworkImage(
+            //   placeholder: (context, url) =>
+            //       Center(child: CircularProgressIndicator()),
+            //   imageUrl: url,
+            //   width: double.infinity,
+            //   fit: BoxFit.cover,
+            // ),
+            child: Image.network(
+              url,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
         ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return ImageScreen(url);
+          }));
+        },
       ),
     );
   }

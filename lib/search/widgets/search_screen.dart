@@ -38,110 +38,180 @@ class SearchScreen extends SearchDelegate {
       create: (BuildContext context) =>
           SearchBloc(searchRepository: searchRepository)
             ..add(SearchRequestEvent(query: query)),
-      child: BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state is SearchSuccess) {
-            List<Search> results = state.results.results;
-            if (results.length == 0)
-              return Center(child: Text("Không có kết quả"));
-            return ListView.builder(
-              itemCount: results.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    shadowColor: Colors.white12,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) {
-                          return Profile(
-                            userId: results[index].id,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      children: <Widget>[
-                        results[index].avatar != "avatar"
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  results[index].avatar,
-                                ),
-                              )
-                            : CircleAvatar(
-                                child: Text(
-                                    results[index].username[0].toUpperCase()),
-                              ),
-                        SizedBox(width: 20),
-                        Text(
-                          results[index].username,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
+      child: BlocListener<SearchBloc, SearchState>(
+        listener: (context, state) {
+          if (state is RequestFriendSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Đã gửi lời mời kết bạn")),
+            );
+          }
+        },
+        child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            if (state is SearchSuccess) {
+              List<Search> results = state.results.results;
+              if (results.length == 0)
+                return Center(child: Text("Không có kết quả"));
+              return ListView.builder(
+                itemCount: results.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shadowColor: Colors.white12,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return Profile(
+                              userId: results[index].id,
+                            );
+                          },
                         ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child:
-                                // IconButton(
-                                //   onPressed: () {
-                                //     Navigator.pushReplacement(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => MessageScreen(
-                                //           receiver: UserMainInfo(
-                                //             id: results[index].id.toString(),
-                                //             name: results[index].username,
-                                //             avatar: results[index].avatar,
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     );
-                                //   },
-                                //   icon: Icon(
-                                //     EvaIcons.messageCircleOutline,
-                                //     color: Colors.black,
-                                //   ),
-                                // ),
-                                Container(
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      print("h");
-                                    },
-                                    child: Text("Kết bạn")),
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    Colors.blue,
-                                    Colors.blue.shade200,
-                                  ],
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: <Widget>[
+                          results[index].avatar != "avatar"
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    results[index].avatar,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  child: Text(
+                                      results[index].username[0].toUpperCase()),
                                 ),
-                                borderRadius: BorderRadius.circular(5),
+                          SizedBox(width: 20),
+                          Text(
+                            results[index].username,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        BlocProvider.of<SearchBloc>(context)
+                                          ..add(RequestFriendByIdEvent(
+                                              results[index].id, query));
+                                      },
+                                      child: Text("Kết bạn")),
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.blue.shade200,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          }
-          return Container();
-        },
+                  );
+                },
+              );
+            } else if (state is RequestFriendSuccessState) {
+              List<Search> results = state.results.results;
+              if (results.length == 0)
+                return Center(child: Text("Không có kết quả"));
+              return ListView.builder(
+                itemCount: results.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shadowColor: Colors.white12,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return Profile(
+                              userId: results[index].id,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: <Widget>[
+                          results[index].avatar != "avatar"
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    results[index].avatar,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  child: Text(
+                                      results[index].username[0].toUpperCase()),
+                                ),
+                          SizedBox(width: 20),
+                          Text(
+                            results[index].username,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        BlocProvider.of<SearchBloc>(context)
+                                          ..add(RequestFriendByIdEvent(
+                                              results[index].id, query));
+                                      },
+                                      child: Text("Kết bạn")),
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.blue.shade200,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }

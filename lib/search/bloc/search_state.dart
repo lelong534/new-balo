@@ -16,6 +16,15 @@ class SearchSuccess extends SearchState {
   List<Object> get props => [results];
 }
 
+class RequestFriendSuccessState extends SearchState {
+  final SearchResponse results;
+
+  RequestFriendSuccessState({required this.results});
+
+  @override
+  List<Object> get props => [results];
+}
+
 class SearchErrorState extends SearchState {
   final String errorMessage;
 

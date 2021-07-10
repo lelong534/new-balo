@@ -9,12 +9,14 @@ class PostItem extends StatefulWidget {
   final Post post;
   final dynamic onTap;
   final dynamic onDetail;
+  final dynamic onDelete;
   final dynamic onClickProfile;
   PostItem(
       {Key? key,
       required this.post,
       required this.onTap,
       required this.onDetail,
+      required this.onDelete,
       required this.onClickProfile})
       : super(key: key);
 
@@ -41,7 +43,7 @@ class _PostItemState extends State<PostItem> {
         return SimpleDialog(
           children: [
             SimpleDialogOption(
-              onPressed: () {},
+              onPressed: widget.onDelete,
               child: Text("Xóa bài viết"),
             ),
             SimpleDialogOption(
@@ -198,12 +200,12 @@ class _PostItemState extends State<PostItem> {
                 .aspectRatio,
         child: Chewie(
           controller: ChewieController(
-            videoPlayerController: VideoPlayerController.network(
-              widget.post.video![0]["link"]!,
-            ),
-            autoInitialize: true,
-            showOptions: false,
-          ),
+              videoPlayerController: VideoPlayerController.network(
+                widget.post.video![0]["link"]!,
+              ),
+              autoInitialize: true,
+              showOptions: false,
+              showControls: false),
         ),
       );
     else

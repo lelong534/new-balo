@@ -10,4 +10,10 @@ class SearchRepository {
     SearchResponse results = await searchApiClient.search(keyword);
     return results;
   }
+
+  Future<SearchResponse> requestFriend(int friendId, String query) async {
+    SearchResponse results =
+        await searchApiClient.requestFriend(friendId, query);
+    return results;
+  }
 }

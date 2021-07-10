@@ -4,7 +4,8 @@ import 'package:flutter_zalo_bloc/post/bloc/post_bloc.dart';
 import 'package:flutter_zalo_bloc/post/models/post_response.dart';
 import 'package:flutter_zalo_bloc/post/repository/post_api_client.dart';
 import 'package:flutter_zalo_bloc/post/repository/post_repository.dart';
-import 'package:flutter_zalo_bloc/post/widgets/add_post.dart';
+import 'package:flutter_zalo_bloc/post/widgets/posts.dart';
+import 'package:flutter_zalo_bloc/profile/widgets/body/add_new_post.dart';
 import 'package:flutter_zalo_bloc/profile/widgets/body/add_post.dart';
 import 'package:flutter_zalo_bloc/profile/widgets/body/body_profile.dart';
 import 'package:flutter_zalo_bloc/profile/widgets/slide/horizontal_list_asset.dart';
@@ -110,6 +111,7 @@ class _ProfileState extends State<Profile> {
                             MaterialPageRoute(
                               builder: (_) {
                                 return AddPost(
+                                  userId: widget.userId,
                                   onSave: (images, description) {
                                     BlocProvider.of<PostBloc>(context).add(
                                       AddPostEvent(

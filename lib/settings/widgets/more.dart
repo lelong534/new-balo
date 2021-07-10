@@ -209,14 +209,6 @@ class _MoreState extends State<More> {
           backgroundImage: AssetImage('assets/avatar.png'),
           radius: 30,
         ),
-        title: Text(
-          "Người dùng",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
         subtitle: Text("Xem trang cá nhân"),
       );
     }));

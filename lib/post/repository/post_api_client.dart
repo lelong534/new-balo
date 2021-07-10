@@ -148,6 +148,30 @@ class PostApiClient {
     }
   }
 
+  Future<PostResponse> likeUserPost(Post post, int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(likePostUrl, data: {
+        "token": token,
+        "id": post.id,
+      });
+
+      Response response = await _dio.post(getListPostsUrl,
+          data: {"token": token, "index": 0, "count": 20, "user_id": userId});
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
+
   Future<PostResponse> hidePost(Post post) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = "";
@@ -229,5 +253,51 @@ class PostApiClient {
     }
   }
 
-  Future<void> deletePost(int postid) async {}
+  Future<PostResponse> unLikeUserPost(Post post, int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(unLikePostUrl, data: {
+        "token": token,
+        "id": post.id,
+      });
+
+      Response response = await _dio.post(getListPostsUrl,
+          data: {"token": token, "index": 0, "count": 20, "user_id": userId});
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
+
+  Future<PostResponse> deletePost(int postId, int userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(deletePostUrl, data: {
+        "token": token,
+        "id": postId,
+      });
+
+      Response response = await _dio.post(getListPostsUrl,
+          data: {"token": token, "index": 0, "count": 20, "user_id": userId});
+      return PostResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return PostResponse.withError("$error");
+    }
+  }
 }

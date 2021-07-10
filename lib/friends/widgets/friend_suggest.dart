@@ -58,25 +58,40 @@ class _FriendSuggestScreenState extends State<FriendSuggestScreen> {
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 16)),
                                   Spacer(),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      BlocProvider.of<FriendSuggestBloc>(
-                                          context)
-                                        ..add(RequestFriendSuggestEvent(user));
-                                    },
-                                    child: Text("Kết bạn",
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 12)),
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0))),
-                                      backgroundColor: MaterialStateProperty
-                                          .resolveWith<Color>(
-                                              (Set<MaterialState> states) {
-                                        return Colors.blue.shade200;
-                                      }),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              BlocProvider.of<
+                                                  FriendSuggestBloc>(context)
+                                                ..add(RequestFriendSuggestEvent(
+                                                    user));
+                                            },
+                                            child: Text(
+                                              "Kết bạn",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: [
+                                              Colors.blue,
+                                              Colors.blue.shade200,
+                                            ],
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],

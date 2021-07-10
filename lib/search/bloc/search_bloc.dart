@@ -24,5 +24,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         yield SearchErrorState(e.toString());
       }
     }
+
+    if (event is RequestFriendByIdEvent) {
+      try {
+        SearchResponse results =
+            await searchRepository.requestFriend(event.friendId, event.query);
+        yield RequestFriendSuccessState(results: results);
+      } catch (e) {
+        yield SearchErrorState(e.toString());
+      }
+    }
   }
 }

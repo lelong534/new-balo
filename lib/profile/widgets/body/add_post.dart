@@ -7,7 +7,9 @@ class AddPostProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap,
+      onTap: () {
+        onTap();
+      },
       child: Container(
         margin: EdgeInsets.fromLTRB(25, 5, 25, 5),
         padding: EdgeInsets.all(5),
@@ -24,7 +26,7 @@ class AddPostProfile extends StatelessWidget {
               children: [
                 Container(
                     margin: EdgeInsets.only(top: 20, bottom: 20, left: 10)),
-                InkWell(
+                GestureDetector(
                   child: new Text(
                     "Bạn đang nghĩ gì",
                     style: TextStyle(fontSize: 14),

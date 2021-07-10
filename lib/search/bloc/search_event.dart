@@ -14,3 +14,9 @@ class SearchRequestEvent extends SearchEvent {
 
   SearchRequestEvent({required this.query});
 }
+
+class RequestFriendByIdEvent extends SearchEvent {
+  final int friendId;
+  final String query;
+  RequestFriendByIdEvent(this.friendId, this.query);
+}

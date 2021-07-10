@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zalo_bloc/profile/images_album.dart';
 import 'package:flutter_zalo_bloc/profile/widgets/slide/horizontal_item.dart';
 
 class HorizontalListAsset extends StatelessWidget {
@@ -12,13 +13,24 @@ class HorizontalListAsset extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          HorizontalItem(
-            title: "Ảnh của tôi",
-            subTitle: "Xem tất cả ảnh và video\nđã đăng",
-            count: 0,
-            gradientStart: Colors.yellow,
-            gradientEnd: Colors.yellow.shade100,
-            icon: Icon(Icons.panorama, color: Colors.black),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) {
+                    return ImagesAlbum(userId: 0);
+                  },
+                ),
+              );
+            },
+            child: HorizontalItem(
+              title: "Ảnh của tôi",
+              subTitle: "Xem tất cả ảnh và video\nđã đăng",
+              count: 0,
+              gradientStart: Colors.yellow,
+              gradientEnd: Colors.yellow.shade100,
+              icon: Icon(Icons.panorama, color: Colors.black),
+            ),
           ),
           HorizontalItem(
             title: "Video của tôi",

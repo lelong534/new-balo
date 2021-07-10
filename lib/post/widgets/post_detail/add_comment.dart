@@ -39,9 +39,11 @@ class AddComment extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onPressed: () {
+                  FocusScope.of(context).unfocus();
                   BlocProvider.of<CommentBloc>(context)
                     ..add(AddCommentEvent(
                         comment: _commentTextController.text, postId: post.id));
+                  _commentTextController.clear();
                 },
               ),
             )

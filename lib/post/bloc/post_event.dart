@@ -26,9 +26,27 @@ class LikePostEvent extends PostEvent {
   LikePostEvent(this.post);
 }
 
+class LikeUserPostEvent extends PostEvent {
+  final Post post;
+  final int userId;
+  LikeUserPostEvent(this.post, this.userId);
+}
+
 class UnLikePostEvent extends PostEvent {
   final Post post;
   UnLikePostEvent(this.post);
+}
+
+class DeletePostEvent extends PostEvent {
+  final int postId;
+  final int userId;
+  DeletePostEvent(this.postId, this.userId);
+}
+
+class UnLikeUserPostEvent extends PostEvent {
+  final Post post;
+  final int userId;
+  UnLikeUserPostEvent(this.post, this.userId);
 }
 
 class HidePostEvent extends PostEvent {

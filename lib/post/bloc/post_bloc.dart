@@ -43,6 +43,22 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       }
     }
 
+    if (event is LikeUserPostEvent) {
+      try {
+        yield await postRepository.likeUserPost(event.post, event.userId);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
+    if (event is DeletePostEvent) {
+      try {
+        yield await postRepository.deletePost(event.postId, event.userId);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
     if (event is HidePostEvent) {
       try {
         yield await postRepository.hidePost(event.post);
@@ -62,6 +78,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     if (event is UnLikePostEvent) {
       try {
         yield await postRepository.unLikePost(event.post);
+      } catch (e) {
+        yield ErrorPostState(e.toString());
+      }
+    }
+
+    if (event is UnLikeUserPostEvent) {
+      try {
+        yield await postRepository.unLikeUserPost(event.post, event.userId);
       } catch (e) {
         yield ErrorPostState(e.toString());
       }

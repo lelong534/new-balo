@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zalo_bloc/helpers/time_helper.dart';
+import 'package:flutter_zalo_bloc/post/bloc/post_bloc.dart';
 import 'package:flutter_zalo_bloc/post/models/post_response.dart';
+import 'package:flutter_zalo_bloc/post/widgets/post_detail/post_detail.dart';
 import 'package:flutter_zalo_bloc/profile/widgets/body/post_item.dart';
 import 'package:timelines/timelines.dart';
 
@@ -56,11 +59,48 @@ class BodyProfile extends StatelessWidget {
                       ),
                     ),
                     PostItem(
-                      post: posts.posts[index],
-                      onClickProfile: null,
-                      onDetail: null,
-                      onTap: null,
-                    )
+                        post: posts.posts[index],
+                        onClickProfile: null,
+                        onDetail: () async {
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) {
+                                return PostDetail(
+                                  postDetail: posts.posts[index],
+                                  onTap: () {
+                                    if (!posts.posts[index].isLiked)
+                                      return BlocProvider.of<PostBloc>(context)
+                                          .add(
+                                        LikePostEvent(posts.posts[index]),
+                                      );
+                                    else
+                                      BlocProvider.of<PostBloc>(context).add(
+                                        UnLikePostEvent(posts.posts[index]),
+                                      );
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        onTap: () {
+                          if (!posts.posts[index].isLiked)
+                            return BlocProvider.of<PostBloc>(context).add(
+                              LikeUserPostEvent(posts.posts[index],
+                                  posts.posts[index].authorId),
+                            );
+                          else
+                            BlocProvider.of<PostBloc>(context).add(
+                              UnLikeUserPostEvent(posts.posts[index],
+                                  posts.posts[index].authorId),
+                            );
+                        },
+                        onDelete: () {
+                          Navigator.pop(context);
+                          BlocProvider.of<PostBloc>(context).add(
+                              DeletePostEvent(posts.posts[index].id,
+                                  posts.posts[index].authorId));
+                        })
                   ],
                 ),
               );

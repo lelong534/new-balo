@@ -5,6 +5,7 @@ import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_zalo_bloc/profile/widgets/profile.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:video_player/video_player.dart';
@@ -12,8 +13,13 @@ import 'package:video_player/video_player.dart';
 class AddPost extends StatefulWidget {
   final Function onSave;
   final Function onSaveVideo;
+  final int userId;
 
-  AddPost({Key? key, required this.onSave, required this.onSaveVideo})
+  AddPost(
+      {Key? key,
+      required this.userId,
+      required this.onSave,
+      required this.onSaveVideo})
       : super(key: key);
 
   @override
@@ -126,13 +132,31 @@ class _AddPostState extends State<AddPost> {
     } else if (hasVideo && !hasImage) {
       _controller?.dispose();
       widget.onSaveVideo(video, _describedController.text);
-      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) {
+            return Profile(userId: widget.userId);
+          },
+        ),
+      );
     } else if (hasImage && !hasVideo) {
       widget.onSave(imagesFile, _describedController.text);
-      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) {
+            return Profile(userId: widget.userId);
+          },
+        ),
+      );
     } else {
       widget.onSave(null, _describedController.text);
-      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) {
+            return Profile(userId: widget.userId);
+          },
+        ),
+      );
     }
   }
 

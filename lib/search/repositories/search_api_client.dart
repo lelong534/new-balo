@@ -33,4 +33,29 @@ class SearchApiClient {
       return SearchResponse.withError("$error");
     }
   }
+
+  Future<SearchResponse> requestFriend(int friendId, String query) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = "";
+
+    String? json = prefs.getString('user');
+    if (json != null) {
+      token = userFromJson(json).token;
+    }
+
+    try {
+      await _dio.post(setRequestFriendUrl, data: {
+        "token": token,
+        "user_id": friendId,
+      });
+
+      Response response = await _dio.post(searchUrl,
+          data: {"token": token, "keyword": query, "index": 0, "count": 20});
+
+      return SearchResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return SearchResponse.withError("$error");
+    }
+  }
 }

@@ -14,46 +14,6 @@ class _FriendRequestScreenState extends State<FriendRequestScreen> {
   int index = 0;
   int count = 20;
 
-  _buildFriendRequestItem(FriendRequest request) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: <Widget>[
-          request.avatar != null
-              ? CircleAvatar(backgroundImage: NetworkImage(request.avatar!))
-              : CircleAvatar(child: Text("U")),
-          SizedBox(width: 20),
-          Text(request.username!,
-              style: TextStyle(color: Colors.black, fontSize: 16)),
-          Spacer(),
-          ElevatedButton(
-            onPressed: () {
-              BlocProvider.of<FriendRequestBloc>(context)
-                  .add(AcceptFriendRequestEvent(request));
-            },
-            child: Text("ĐỒNG Ý",
-                style: TextStyle(color: Colors.black, fontSize: 12)),
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0))),
-              backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                return Colors.blue.shade200;
-              }),
-            ),
-          ),
-          IconButton(
-              icon: Icon(Icons.close, color: Colors.blue),
-              onPressed: () {
-                BlocProvider.of<FriendRequestBloc>(context)
-                    .add(AcceptFriendRequestEvent(request));
-              },
-              padding: EdgeInsets.all(0))
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +44,71 @@ class _FriendRequestScreenState extends State<FriendRequestScreen> {
                             shrinkWrap: true,
                             primary: false,
                             itemBuilder: (context, index) {
-                              return _buildFriendRequestItem(friends[index]);
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 6),
+                                child: Row(
+                                  children: <Widget>[
+                                    friends[index].avatar != null
+                                        ? CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                friends[index].avatar!))
+                                        : CircleAvatar(child: Text("U")),
+                                    SizedBox(width: 20),
+                                    Text(friends[index].username!,
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 16)),
+                                    Spacer(),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                BlocProvider.of<
+                                                            FriendRequestBloc>(
+                                                        context)
+                                                    .add(
+                                                        AcceptFriendRequestEvent(
+                                                            friends[index]));
+                                              },
+                                              child: Text(
+                                                "ĐỒNG Ý",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight,
+                                              colors: [
+                                                Colors.blue,
+                                                Colors.blue.shade200,
+                                              ],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.close,
+                                            color: Colors.blue),
+                                        onPressed: () {
+                                          BlocProvider.of<FriendRequestBloc>(
+                                                  context)
+                                              .add(RejectFriendRequestEvent(
+                                                  friends[index]));
+                                        },
+                                        padding: EdgeInsets.all(0))
+                                  ],
+                                ),
+                              );
                             },
                           );
                         }
@@ -121,8 +145,8 @@ class _FriendRequestScreenState extends State<FriendRequestScreen> {
                   },
                   child: Padding(
                       padding: EdgeInsets.all(14),
-                      child: Text("Tìm thêm bạn",
-                          style: TextStyle(color: Colors.black))),
+                      child: Text("TÌM THÊM BẠN",
+                          style: TextStyle(color: Colors.white))),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0))),

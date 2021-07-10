@@ -96,11 +96,12 @@ class FriendRepository {
         "user_id": userid,
         "is_accepted": status,
       });
-      await _dio.post(setAcceptFriend, data: formData);
+      Response res = await _dio.post(setAcceptFriend, data: formData);
+      print(res);
       Response response = await _dio.post(getListFriendRequestUrl, data: {
         "token": token,
         "index": 0,
-        "count": 20,
+        "count": 10,
       });
       return FriendRequestResponse.fromJson(response.data);
     } catch (error, stacktrace) {
@@ -129,7 +130,7 @@ class FriendRepository {
       Response response = await _dio.post(getListFriendRequestUrl, data: {
         "token": token,
         "index": 0,
-        "count": 20,
+        "count": 10,
       });
       return FriendRequestResponse.fromJson(response.data);
     } catch (error, stacktrace) {
@@ -156,7 +157,7 @@ class FriendRepository {
       Response response = await _dio.post(getListFriendSuggestUrl, data: {
         "token": token,
         "index": 0,
-        "count": 20,
+        "count": 10,
       });
       return FriendSuggestResponse.fromJson(response.data);
     } catch (error, stacktrace) {

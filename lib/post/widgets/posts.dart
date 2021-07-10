@@ -38,6 +38,10 @@ class _PostsState extends State<Posts> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Đã chặn người dùng")),
             );
+          } else if (state is AddPostSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Đã tải lên bài viết")),
+            );
           }
         },
         child: BlocBuilder<PostBloc, PostState>(
@@ -92,7 +96,9 @@ class _PostsState extends State<Posts> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                      strokeWidth: 2,
+                    )
                   ],
                 ),
               );
@@ -108,6 +114,10 @@ class _PostsState extends State<Posts> {
                   state.posts.posts.where((e) => !e.isHide).toList();
               return buildMainScreen(_getData, context, posts);
             } else if (state is ReceivedPostState) {
+              List<Post> posts =
+                  state.posts.posts.where((e) => !e.isHide).toList();
+              return buildMainScreen(_getData, context, posts);
+            } else if (state is AddPostSuccessState) {
               List<Post> posts =
                   state.posts.posts.where((e) => !e.isHide).toList();
               return buildMainScreen(_getData, context, posts);

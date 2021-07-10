@@ -26,6 +26,16 @@ class PostRepository {
     return ReceivedPostState(newState);
   }
 
+  Future<PostState> likeUserPost(post, userId) async {
+    PostResponse newState = await postApiClient.likeUserPost(post, userId);
+    return ReceivedPostState(newState);
+  }
+
+  Future<PostState> deletePost(postId, userId) async {
+    PostResponse newState = await postApiClient.deletePost(postId, userId);
+    return ReceivedPostState(newState);
+  }
+
   Future<PostState> hidePost(post) async {
     PostResponse newState = await postApiClient.hidePost(post);
     return HidePostSuccessState(newState);
@@ -41,10 +51,15 @@ class PostRepository {
     return ReceivedPostState(newState);
   }
 
+  Future<PostState> unLikeUserPost(post, userId) async {
+    PostResponse newState = await postApiClient.unLikeUserPost(post, userId);
+    return ReceivedPostState(newState);
+  }
+
   Future<PostState> addPost(
       List<MultipartFile>? images, String described) async {
     PostResponse newState = await postApiClient.addPost(images, described);
-    return ReceivedPostState(newState);
+    return AddPostSuccessState(newState);
   }
 
   Future<PostState> addPostVideo(File? video, String described) async {

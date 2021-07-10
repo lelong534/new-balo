@@ -36,19 +36,6 @@ class ProfileHeader extends StatelessWidget {
           ),
           child: new InkWell(
             onTap: () {
-              // showDialog(
-              //     context: context,
-              //     builder: (BuildContext context) {
-              //       return Modal(
-              //           title: "Ảnh bìa",
-              //           view: "Xem ảnh bìa",
-              //           takeScreen: "Chụp ảnh mới",
-              //           takeDevices: "Chọn ảnh từ thiết bị",
-              //           img: Image.asset(
-              //             'assets/modalCover.jpg',
-              //             width: 20,
-              //           ));
-              //     });
             },
           ),
         ),
@@ -74,19 +61,6 @@ class ProfileHeader extends StatelessWidget {
                       borderWidth: 1.0,
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     color: Colors.blue,
-                  //     padding: EdgeInsets.all(5),
-                  //     margin: EdgeInsets.fromLTRB(
-                  //         MediaQuery.of(context).size.width * 0.7, 56, 0, 0),
-                  //     child: Text(
-                  //       "Nhắn tin",
-                  //       style: TextStyle(color: Colors.white),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
               Text(

@@ -41,6 +41,18 @@ class HidePostSuccessState extends PostState {
   String toString() => 'Hided Post';
 }
 
+class AddPostSuccessState extends PostState {
+  final PostResponse posts;
+
+  AddPostSuccessState(this.posts);
+
+  @override
+  List<Object> get props => [posts];
+
+  @override
+  String toString() => 'Add Post';
+}
+
 class BlockUserSuccessState extends PostState {
   final PostResponse posts;
 
